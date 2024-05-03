@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         options=""
-        if [ "${{ inputs.all }}" == 'true'; then
+        if [ "${{ inputs.all }}" == 'true' ]; then
           options="$options all"
         fi
         if [ -n "${{ inputs.code-name }}" ]; then
