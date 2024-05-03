@@ -28,7 +28,7 @@ runs:
       shell: bash
       run: |
         options=""
-        all=$(echo ${{ inputs.all }} | tr '[:upper:]' '[:lower:]')
+        all="$(echo "${{ inputs.all }}" | tr '[:upper:]' '[:lower:]')"
         if [ "$all" == 'true' ]; then
           options="$options all"
         fi
@@ -45,6 +45,7 @@ runs:
         sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
         chmod +x "$SCRIPT"
 
+        echo "Running: \"$SCRIPT\" \"${{ inputs.version }}\" $options"
         sudo "$SCRIPT" "${{ inputs.version }}" $options
 
 branding:
