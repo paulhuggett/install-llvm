@@ -19,10 +19,9 @@ runs:
       if: ${{ runner.os }} == 'Linux'
       env:
         INPUTS_VERSION: ${{ inputs.version }}
-        SCRIPT: /tmp/llvm.sh
       shell: bash
       run: |
-        ls -l "$GITHUB_ACTION_PATH"
+        SCRIPT="$GITHUB_ACTION_PATH/llvm.sh"
         # Force --yes to the end of the add-apt-repository command to
         # prevent the llvm.sh script hanging.
         sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
