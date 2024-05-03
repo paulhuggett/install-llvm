@@ -20,12 +20,12 @@ runs:
         INPUTS_VERSION: ${{ inputs.version }}
       shell: bash
       run: |
-          wget https://apt.llvm.org/llvm.sh
+          wget https://apt.llvm.org/llvm.sh -O /tmp/llvm.sh
           # Force --yes to the end of the add-apt-repository command to
           # prevent the llvm.sh script hanging.
-          sed -ie "/^add-apt-repository/ s/$/ --yes/" llvm.sh
+          sed -ie "/^add-apt-repository/ s/$/ --yes/" /tmp/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh "$INPUTS_VERSiON"
+          sudo /tmp/llvm.sh "$INPUTS_VERSiON"
 
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 
