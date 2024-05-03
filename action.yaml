@@ -20,8 +20,6 @@ inputs:
     description: Specifies the base URL from which to download
     required: false
 
-outputs:
-
 runs:
   using: composite
   steps:
