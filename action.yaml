@@ -16,19 +16,18 @@ runs:
   using: composite
   steps:
     - id: branch
+      if: ${{ runner.os }} == 'Linux'
       env:
         INPUTS_VERSION: ${{ inputs.version }}
         SCRIPT: /tmp/llvm.sh
       shell: bash
       run: |
-        if [ "$(uname)" = "Linux" ]; then
-          wget https://apt.llvm.org/llvm.sh -O "$SCRIPT"
-          # Force --yes to the end of the add-apt-repository command to
-          # prevent the llvm.sh script hanging.
-          sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
-          chmod +x "$SCRIPT"
-          sudo "$SCRIPT" "$INPUTS_VERSION"
-        fi
+        wget https://apt.llvm.org/llvm.sh -O "$SCRIPT"
+        # Force --yes to the end of the add-apt-repository command to
+        # prevent the llvm.sh script hanging.
+        sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
+        chmod +x "$SCRIPT"
+        sudo "$SCRIPT" "$INPUTS_VERSION"
 
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 
