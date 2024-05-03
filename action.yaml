@@ -22,7 +22,7 @@ runs:
         SCRIPT: /tmp/llvm.sh
       shell: bash
       run: |
-        wget https://apt.llvm.org/llvm.sh -O "$SCRIPT"
+        ls -l
         # Force --yes to the end of the add-apt-repository command to
         # prevent the llvm.sh script hanging.
         sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
