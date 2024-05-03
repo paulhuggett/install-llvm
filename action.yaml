@@ -1,6 +1,6 @@
 name: Install LLVM
 description: Install a specific version of LLVM
-author: paulhugget
+author: paulhuggett
 inputs:
   version:
     description: The version number of LLVM to be installed
@@ -18,14 +18,17 @@ runs:
     - id: branch
       env:
         INPUTS_VERSION: ${{ inputs.version }}
+        SCRIPT: /tmp/llvm.sh
       shell: bash
       run: |
-          wget https://apt.llvm.org/llvm.sh -O /tmp/llvm.sh
+        if [ "$(uname)" = "Linux" ]; then
+          wget https://apt.llvm.org/llvm.sh -O "$SCRIPT"
           # Force --yes to the end of the add-apt-repository command to
           # prevent the llvm.sh script hanging.
-          sed -ie "/^add-apt-repository/ s/$/ --yes/" /tmp/llvm.sh
-          chmod +x /tmp/llvm.sh
-          sudo /tmp/llvm.sh "$INPUTS_VERSION"
+          sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
+          chmod +x "$SCRIPT"
+          sudo "$SCRIPT" "$INPUTS_VERSION"
+        fi
 
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 
