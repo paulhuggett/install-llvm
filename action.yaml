@@ -25,7 +25,7 @@ runs:
           # prevent the llvm.sh script hanging.
           sed -ie "/^add-apt-repository/ s/$/ --yes/" /tmp/llvm.sh
           chmod +x /tmp/llvm.sh
-          sudo /tmp/llvm.sh "$INPUTS_VERSiON"
+          sudo /tmp/llvm.sh "$INPUTS_VERSION"
 
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 
