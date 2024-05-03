@@ -1,35 +1,53 @@
 name: Install LLVM
 description: Install a specific version of LLVM
 author: paulhuggett
+
 inputs:
   version:
     description: The version number of LLVM to be installed
-    default: 16
     required: true
 
+  all:
+    description: Install all packages?
+    default: false
+    required: false
+
+  code-name:
+    description: Specifies the distro codename, for example bionic
+    required: false
+
+  repo-base-url:
+    description: Specifies the base URL from which to download
+    required: false
+
 outputs:
-  success:
-    value: true
-    description: Returns `"true"` if the installation was successful
 
 runs:
   using: composite
   steps:
     - id: branch
       if: ${{ runner.os }} == 'Linux'
-      env:
-        INPUTS_VERSION: ${{ inputs.version }}
       shell: bash
       run: |
+        options=""
+        if [ "${{ inputs.all }}" == 'true'; then
+          options="$options all"
+        fi
+        if [ -n "${{ inputs.code-name }}" ]; then
+          options="$options -n ${{ input.code-name }}"
+        fi
+        if [ -n "${{ inputs.repo-base-url }}" ]; then
+          options="$options -m=${{ inputs.repo-base-url }}"
+        fi
+
         SCRIPT="$GITHUB_ACTION_PATH/llvm.sh"
         # Force --yes to the end of the add-apt-repository command to
         # prevent the llvm.sh script hanging.
         sed -ie "/^add-apt-repository/ s/$/ --yes/" "$SCRIPT"
         chmod +x "$SCRIPT"
-        sudo "$SCRIPT" "$INPUTS_VERSION"
 
-# https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
+        sudo "$SCRIPT" "${{ inputs.version }}" $options
 
-#branding:
-#  icon: download
-#  color: green
+branding:
+  icon: download
+  color: blue
