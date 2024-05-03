@@ -32,7 +32,7 @@ runs:
           options="$options all"
         fi
         if [ -n "${{ inputs.code-name }}" ]; then
-          options="$options -n ${{ input.code-name }}"
+          options="$options -n ${{ inputs.code-name }}"
         fi
         if [ -n "${{ inputs.repo-base-url }}" ]; then
           options="$options -m=${{ inputs.repo-base-url }}"
