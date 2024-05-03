@@ -23,19 +23,20 @@ inputs:
 runs:
   using: composite
   steps:
-    - id: branch
+    - name: Install LLVM
       if: ${{ runner.os }} == 'Linux'
       shell: bash
       run: |
         options=""
-        if [ "${{ inputs.all }}" == 'true' ]; then
+        all=$(echo ${{ inputs.all }} | tr '[:upper:]' '[:lower:]')
+        if [ "$all" == 'true' ]; then
           options="$options all"
         fi
         if [ -n "${{ inputs.code-name }}" ]; then
-          options="$options -n ${{ inputs.code-name }}"
+          options="$options -n='${{ inputs.code-name }}'"
         fi
         if [ -n "${{ inputs.repo-base-url }}" ]; then
-          options="$options -m=${{ inputs.repo-base-url }}"
+          options="$options -m='${{ inputs.repo-base-url }}'"
         fi
 
         SCRIPT="$GITHUB_ACTION_PATH/llvm.sh"
